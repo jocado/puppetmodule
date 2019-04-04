@@ -77,6 +77,7 @@ class puppet::server (
   Optional[Boolean]                                     $strict_variables              = undef,
   Optional[Enum['msgpack']]                             $serialization_format          = undef,
 
+  Optional[Hash]                                        $auth_config_rules             = undef,
   Optional[ Array[ Struct[ { name => String , path => String , Optional[desc] => String } ]]]   $file_server_mounts = undef,
 
 ) inherits puppet::params {
@@ -187,6 +188,27 @@ class puppet::server (
     group   => $puppet_group,
     content => template("puppet/server/auth.conf.erb"),
     require => File[$confdir],
+  }
+
+
+  if $auth_config_rules {
+
+    $auth_config_file = "${puppet_server_conf_d}/auth.conf"
+
+    puppet_authorization { $auth_config_file:
+      version                => 1,
+      allow_header_cert_info => false,
+      notify                 => Service[$puppet_server_service],
+    }
+
+    $auth_config_rule_defaults = {
+                                  'path'   => $auth_config_file,
+                                  'notify' => Service[$puppet_server_service],
+                                 }
+
+    create_resources('puppet_authorization::rule', $auth_config_rules, $auth_config_rule_defaults
+
+
   }
 
 
