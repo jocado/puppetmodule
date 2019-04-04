@@ -35,5 +35,6 @@
     {"name":"puppetlabs/stdlib","version_requirement":">=3.0.0"},
     {"name":"puppetlabs/apt","version_requirement":">=1.1.0"},
     {"name":"puppetlabs/inifile","version_requirement":">=1.0.0"}
+    {"name":"puppetlabs/puppet_authorization","version_requirement":"<1.0.0"}
   ]
 }
