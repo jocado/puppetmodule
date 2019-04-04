@@ -214,12 +214,12 @@ class puppet::server (
     notify  => Service[$puppet_server_service],
   }
 
-  # CA settings are here #
+  # CA service settings are here #
   file { "${puppet_server_services_d}/ca.cfg":
     ensure  => present,
     owner   => $puppet_user,
     group   => $puppet_group,
-    content => template("puppet/server/ca.cfg.erb"),
+    content => template("puppet/server/ca-service.cfg.erb"),
     require => File[$puppet_server_services_d],
   }
 
